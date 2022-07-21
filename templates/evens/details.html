@@ -1,0 +1,100 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load extras %}
+
+{% block css %}
+{% if user.is_association%}
+    <link href="{% static 'CSS/Associ.css' %}" rel="stylesheet" type="text/css">
+{% else %}
+    <link rel="stylesheet" href="{% static 'CSS/etu_menu.css' %}">
+{% endif %}
+    
+{% endblock css %}
+
+{% block content %}
+
+{% comment %} Menu {% endcomment %}
+
+<!-- debut des menu -->
+{% if user.is_student %}
+    {% include 'partials/_etu_menu.html' %}
+{% elif user.is_company %}
+    {% include 'partials/_etpse_menu.html' %}
+{% elif user.is_association %}
+    {% include 'partials/_Association_Menu.html' %}
+{% endif %}
+<!-- debut des menu -->
+    <br><br>
+    <div class="container">
+        <div class="row">
+        {% comment %} First Section {% endcomment %}
+            <div class="col-md-2"></div>
+        {% comment %} Second Section {% endcomment %}
+            <div class="col-md-8">
+                {% comment %} Article {% endcomment %}
+                <div class="card feseul_card post_div" id="{{post.id}}">
+                    <H5 class="card-header">
+                        {% if post.author.is_student %}
+                        <img class="rounded-circle border border-warning d-inline" src="{{ post.author.profile.thumbnail.url }} " alt="user" width="50px" height="50px">
+                      {% elif post.author.is_company %}
+                        <img class="rounded-circle border border-warning d-inline" src="{{ post.author.page.thumbnail.url }} " alt="user" width="50px" height="50px">
+    
+                      {% elif post.author.is_association %}
+                        <img class="rounded-circle border border-warning d-inline" src="{{ post.author.association.thumbnail.url }} " alt="user" width="50px" height="50px">
+    
+                      {% endif %}
+                        {{post.author}} <small class="text-muted"> {{post.timestamp|timesince}} </small></H5>
+
+                    {% if post.thumbnail %}
+                    <img class="card-img" src="{{post.thumbnail.url}}" alt="fessef">
+                    {% endif %}
+                    <div class="card-body">
+                        <p></p>
+                        <p class="card-text"> {{post.contenu}} </p>
+
+                        {% if request.user == post.author %}
+                            <a class="ml-3 delete text-danger" href="{% url 'delete-addevens'  post.slug %}" id="{{post.id}}">Delete</a>
+                        {% endif %}
+                    </div>
+
+                <div class="card-footer text-muted text-center">
+                <div class="row m-auto">
+                    <div class="col-md-5">
+                        <p class="float-left d-inline  ml-2">Date : {{post.Date|date}}</p>
+                    </div>
+
+                    <div class="col-md-5">
+                        <p class="float-left d-inline  ml-2">Lieu : {{post.lieu}}</p>
+                    </div>
+
+                    <div class="col-md-2">
+                        <p class="float-right d-inline total"  >
+                            Vue(s) ({{post.views}})
+                        </p>
+                    </div>
+                </div>          
+              </div>
+            </div>
+            
+    <div class="col-md-2"></div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+{% endblock content %}
+<!-- block for The Script -->
+{% block script %} 
+
+  <script src="{% static 'JS/detailpost.js' %}  "></script> 
+
+{% endblock script %}
+
+
+
+

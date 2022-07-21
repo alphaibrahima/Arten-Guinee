@@ -1,0 +1,111 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'CSS/addxamaxam.css' %}">
+
+    <style>
+        #id_thumbnail
+        {
+          margin-top: 5px;
+          font-size : 16px;
+          background: white;
+          border-radius: 50px;
+          width: 100%;
+          outline: none;
+          box-shadow: 10px 14px 23px -4px rgba(0,0,0,0.1);
+          -webkit-box-shadow: 10px 14px 23px -4px rgba(0,0,0,0.29);
+          -moz-box-shadow: 10px 14px 23px -4px rgba(0,0,0,0.29);
+        }
+      
+        ::-webkit-file-upload-button
+        {
+          color: #fff;
+          background:#3563A9;
+          padding: 10px;
+          border: none;
+          border-radius: 50px;
+          box-shadow: 1px 0 1px #052754;
+          outline: none;
+        }
+      
+        ::-webkit-file-upload-button:hover
+        {
+          background: #052754;
+          box-shadow: 1px 0 1px #3563A9;
+        }
+
+        label[for="id_thumbnail"]
+        {
+          display: none;
+        }
+        .helptext
+        {
+            font-size: 15px;
+            font-weight: 400;
+            margin-top: -10px;
+        }
+
+        #btn-bleu
+        {
+          background-color: #3563A9;
+          color: #fff;
+          width: 100px;
+          padding: 8px;
+          border: none;
+          border-radius: 20px;
+          font-size: 20px;
+        }
+      
+        #btn-bleu:hover
+        {
+          background-color: #fff;
+          color: #3563A9;
+          border: 1px solid #3563A9;
+          transition: all 0.5s ease-out;
+        }
+    </style>
+
+{% endblock css %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-3"></div>
+
+        <!-- Debut du section formulaire -->
+        <div class="col-md-6">
+
+            <h1 class="h2">Créer un document<h2>
+            <form method="POST" action="{% url 'addxamxam' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="mb-4" id="btn-bleu">Partagez</button>
+
+            </form>
+
+            
+        </div>
+        <!-- Fin du section formulaire -->
+
+        <div class="col-md-3"></div>
+    </div>
+</div>
+
+
+
+<script>
+    var name = "{{user.id}}";
+    document.getElementById("username").value = name;
+
+</script>
+
+{% endblock content %}
+
+{% block script %}
+    <script>
+        $(document).ready(function(){
+            $('[for="id_title"]').text("Titre");
+        });
+       
+    </script>
+{% endblock script %}

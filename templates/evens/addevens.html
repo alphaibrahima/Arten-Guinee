@@ -1,0 +1,143 @@
+{% extends 'base/base.html' %}
+
+{% load static %}
+{% block css %}
+<link href="{% static 'CSS/files.css' %}" rel="stylesheet" type="text/css">
+{% if user.is_association%}
+  <link href="{% static 'CSS/Associ.css' %}" rel="stylesheet" type="text/css">
+{% else %}
+  <link rel="stylesheet" href="{% static 'CSS/etu_menu.css' %}">
+{% endif %}
+
+<style>
+    .centrer
+    {
+        margin-top: 8%;
+    }
+
+    .card
+    {
+        border-radius: 10px;
+        box-shadow: 6px 6px 48px -30px rgba(0,0,0,0.51);
+        -webkit-box-shadow: 6px 6px 48px -30px rgba(0,0,0,0.51);
+        -moz-box-shadow: 6px 6px 48px -30px rgba(0,0,0,0.51);
+    }
+
+    .boutton
+    {
+        background-color: #3563a9;
+        color: #fff;
+    }
+
+    .boutton:hover
+    {
+        background-color: #fff;
+        color: #3563a9;
+    }
+</style>
+
+{% endblock css %}
+
+{% block content %}
+
+<!-- debut des menu -->
+{% if user.is_student %}
+    {% include 'partials/_etu_menu.html' %}
+{% elif user.is_company %}
+    {% include 'partials/_etpse_menu.html' %}
+{% elif user.is_association %}
+    {% include 'partials/_Association_Menu.html' %}
+{% endif %}
+<!-- debut des menu -->
+
+
+<div class="container centrer">
+    <div class="row">
+        <div class="col-md-3"></div>
+
+        <div class="col-md-6">
+
+            <div class="card my-4">
+                <div class="card-body">
+                    <h3 class="text-center">
+                        Créer un evenement
+                    </h3>
+                </div>
+            </div>
+            <div class="card" >
+                <div class="card-body">
+                    <form action="" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="custom-file my-2">
+                            <input type="file" name="thumbnail" class="" id="thumbnail" hidden>
+                            <label  for="thumbnail" id="selector">Image à la une </label>
+
+                            <!-- <input type="file" class="custom-file-input" name="thumbnail" id="validatedInputGroupCustomFile" required>
+                            <label class="custom-file-label" for="validatedInputGroupCustomFile">Choisir une image...</label> -->
+                        </div>
+                        <div class="row my-2">
+                            <div class="col">
+                                <input type="text" class="form-control" name="titre" placeholder="Titre">
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control" name="lieu" placeholder="Lieu">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-10">
+                                <input class="form-control" type="datetime-local" name="date">
+                            </div>
+                            <div class="col-2 d-none">
+                                <h5 id="nmbre">50</h5>
+                            </div>
+                        </div>
+
+
+                        <div class="row my-2 mx-1">
+                            <textarea class="form-control" name="desc" id="" cols="20" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn boutton">
+                            Envoyer
+                        </button>
+                    </form>
+                </div>
+            </div>
+                
+
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+</div>
+
+
+
+
+
+{% endblock content %}
+
+{% block script %}
+<script src=" {% static 'JS/files.js' %} "></script>
+
+<!-- <script>
+
+    $(document).ready(function(){
+      $.ajax({
+          type    : 'GET',
+          url     : "{% url 'datas' %}",
+          
+          
+          success : function(data){
+              console.log(data.user.count)
+          },
+          
+          error: function(data){
+              console.log("No DATA");
+          }
+          
+      });     
+      
+  })
+  
+  </script> -->
+
+{% endblock script %}

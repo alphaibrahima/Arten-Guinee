@@ -1,0 +1,130 @@
+{% extends 'base/base.html' %}
+{% load static %} 
+{% block css %}
+{% if user.is_association%}
+  <link href="{% static 'CSS/Associ.css' %}" rel="stylesheet" type="text/css">
+{% else %}
+  <link rel="stylesheet" href="{% static 'CSS/etu_menu.css' %}">
+{% endif %}
+<!-- <link href="{% static 'CSS/home.css' %}" rel="stylesheet" type="text/css"> -->
+<style>
+    body{
+        background: #F1F1F1;
+    }
+    p.card-text {
+        font-size: 14px;
+    }
+</style>
+{% endblock css %}
+
+{% block content %}
+
+<!-- debut des menu -->
+{% if user.is_student %}
+    {% include 'partials/_etu_menu.html' %}
+{% elif user.is_company %}
+    {% include 'partials/_etpse_menu.html' %}
+{% elif user.is_association %}
+    {% include 'partials/_Association_Menu.html' %}
+{% endif %}
+<!-- fin des menu -->
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-5">
+                {% for post in evens %}
+               
+                    <div class="card my-4" onclick="location.href='{% url 'evens-datail'  post.slug %}';" style="cursor: pointer;">
+                        {% if post.thumbnail %}
+                        <img src="{{ post.thumbnail.url }}" class="card-img-top" alt="{{ post.titre }}" style="max-height: 300px; object-fit: cover;">
+                        {% endif %}
+                        <div class="card-body">
+                          <h5 class="card-title">{{ post.titre }}</h5>
+                          <p class="card-text">
+                            {{ post.contenu|slice:":50"|safe }}
+                            <a class="text-dark" href="{% url 'evens-datail'  post.slug %}" >...</a>
+                          </p>
+                          <p class="card-text"><small class="text-muted">
+                            Depuis {{post.timestamp|timesince}}
+                          </small></p>
+                        </div>
+                {% endfor %}
+
+                        <!-- div tags -->
+                        <ul class="list-group list-group-flush text-center">
+                            <li class="list-group-item">
+                            <div style="display: flex;  flex-flow: row wrap; margin-bottom:5px;">
+                                {% for tag in post.tags.all %}
+                                <a href="{% url 'taggevens' tag.slug %}" class="badge badge-success ml-1 mb-2">
+                                 {{ tag }}
+                                </a>
+                                {% endfor  %}
+                            </div>
+                            </li>
+                        </ul>
+                        <!-- fin div tag -->
+                        {% if request.user == post.author %}
+                        <ul class="list-group list-group-flush text-center">
+                            <li class="list-group-item">
+                            <a href="{% url 'update-Evenes'  post.slug %}" class="float-left d-inline ml-2 text-warning">Modifier</a>
+                            <a href="{% url 'delete-addevens'  post.slug %}" class="float-right d-inline mr-2 text-danger">Suprimer</a>
+                            </li>
+                        </ul>
+                        {% endif %}
+                        <div class="card-footer text-muted text-center">
+            
+                            <p class="float-left d-inline  ml-2">
+                            <b>{{ post.author }}</b>
+                            </p>
+                            <p class="text-center d-inline ml-2">
+                            <a class="text-muted" href="#"></a>
+                            </p>
+                            <p class="float-right d-inline mr-2">
+                            {{post.likes.count}}
+                            </p>
+                        </div>
+                    
+                    </div>
+
+                {% endfor %}
+            
+            
+        </div>
+        <div class="col-4"> 
+            <div class="card my-3">
+                <div class="card-body">
+                  <h5 class="text-center">Les derniers evenements publiés </h5>
+                </div>
+            </div>
+            {% for post in evens|slice:":3"  %}
+            <div class="card mb-3" style="border-radius: 15px; cursor: pointer;"  >
+                <div class="row no-gutters">
+                  <div class="col-md-4">
+                    {% if post.thumbnail %}
+                        <img src="{{ post.thumbnail.url }}" class="card-img" alt="" style="height:100%; object-fit:cover;">
+                    {% endif %}
+                  </div>
+                  <div class="col-md-8">
+                    <div class="card-body">
+                      <h5 class="card-title">{{post.titre}}</h5>
+                      <p class="card-text">{{ post.contenu|slice:":50"|safe }}</p>
+                      <p class="card-text">
+                        <small class="text-muted">
+                            Depuis {{post.timestamp|timesince}}
+                        </small>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block script %}
+{% endblock script %}

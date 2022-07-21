@@ -1,0 +1,117 @@
+
+{% extends 'base/base.html' %}
+
+{% load static %}
+
+{% block meta %}
+
+    <meta name="description" content="Site de mise en relation ">
+    <meta name="author" content="Fessef">
+
+    <!-- OG Meta Tags to improve the way the post looks when you share the page on LinkedIn, Facebook, Google+ -->
+    <meta property="og:site_name" content="Fessef" /> <!-- website name -->
+    <meta property="og:site" content="" /> <!-- lien du site-->
+    <meta property="og:title" content=""/> <!-- titre visible dans le partage d'actualite  -->
+    <meta property="og:description" content="" /> <!-- description visible dans le partage d'actualite -->
+    <meta property="og:image" content="" /> <!-- lien image, mettre une fichier jpg -->
+    <meta property="og:url" content="" /> <!-- ou rediriger  -->
+    <meta property="og:type" content="article" />
+
+
+{% endblock meta %}
+
+{% block css %}
+    <link href="https://fonts.googleapis.com/css2?family=Grandstander:ital,wght@1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.0/animate.min.css">
+    <link rel="stylesheet" href="{% static 'CSS/accueil.css'' %}">
+
+{% endblock css %}
+
+
+{% block content %} 
+
+<!-- <div class="container-fluid"> -->
+<nav class="navbar navbar-expand-lg navbar-dark  fixed-top" style="background-color: #28833A;">
+        <a class="navbar-brand" href="#">
+            <h2>Arten Guinee</h2>
+        </a>
+          <!-- <a class="navbar-brand" href="#">Navbar</a> -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" 
+          aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav ml-auto" style="margin-right: 50px;">
+            <li class="nav-item">
+              <a class="nav-link text-white" href="#home">
+                    Accueil
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white" href="#temoignages">
+                    Temoignages
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white" href="#qsn">
+                    Qui sommes nous
+              </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white" href="#conatct">
+                    Contacts
+                </a>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  CONNEXION 
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                  <a class="dropdown-item" href="login">Membre</a>
+                  <a class="dropdown-item" href="login_assoc">Admin Limité</a>
+                  <a class="dropdown-item" href="login_etpse">Admin principal</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>
+<!-- </div> -->
+
+
+
+<!-- footer -->
+
+
+
+{% endblock content %}
+
+
+{% block script %}
+    <script>
+        $(document).ready(function () {
+            $('.carousel').carousel({
+                interval: 4000
+            });
+        
+            $('.carousel').carousel('cycle');
+
+            //Défilement fluide sur les liens HTML vers les ancres
+            $("a[href*='#']:not([href='#'])").click(function() {
+                if (
+                    location.hostname == this.hostname
+                    && this.pathname.replace(/^\//,"") == location.pathname.replace(/^\//,"")
+                ) {
+                    var anchor = $(this.hash);
+                    anchor = anchor.length ? anchor : $("[name=" + this.hash.slice(1) +"]");
+                    if ( anchor.length ) {
+                        $("html, body").animate( { scrollTop: anchor.offset().top }, 1500);
+                    }
+                }
+            });
+        
+
+        });
+    </script>
+{% endblock script %}

@@ -1,0 +1,80 @@
+
+{% extends "base/base.html" %}
+
+{% load static %} 
+
+{% block css %}
+    {% if user.is_association%}
+        <link href="{% static 'CSS/Associ.css' %}" rel="stylesheet" type="text/css">
+    {% else %}
+        <link rel="stylesheet" href="{% static 'CSS/etu_menu.css' %}">
+    {% endif %}
+    <link href="{% static 'CSS/chat.css' %}" rel="stylesheet" type="text/css">
+{% endblock css %}
+
+{% block content %}
+
+<!-- debut des menu -->
+{% if user.is_student %}
+    {% include 'partials/_etu_menu.html' %}
+{% elif user.is_company %}
+    {% include 'partials/_etpse_menu.html' %}
+{% elif user.is_association %}
+    {% include 'partials/_Association_Menu.html' %}
+{% endif %}
+<!-- debut des menu -->
+
+
+
+<div class="container ">
+    <div class="row">
+        <div class="col-md-3"></div>
+
+        <!-- debut des notifications  -->
+        <div class="col-md-6 my-4">
+            <ul class="list-group my-2">
+                {% for notification in notifications %}
+                    <li class="list-group-item mb-1">
+                        {% if notification.sender.is_company  %}  
+                        <img src="{{ notification.sender.page.thumbnail.url }}" class="card-img  shadow-sm my-2" alt="" style="border-radius: 50%;
+                        height: 40px; width: 40px;">
+                        {% elif notification.sender.is_association   %}
+                            <img src="{{ notification.sender.association.thumbnail.url}}" class="card-img shadow-sm my-2" alt="" style="border-radius: 50%;
+                            height: 40px; width: 40px; ">
+                        {% elif notification.sender.is_student   %}
+                            <img src="{{ notification.sender.profile.thumbnail.url}}" class="card-img shadow-sm my-2" alt="" style="border-radius: 50%;
+                            height: 40px; width: 40px; ">
+                        {% endif %}
+                        <span class="title"><b> @{{ notification.sender.username }}</b></span>
+                        <a href="{% url 'delete-notification' notification.id %}" class="badge bg-danger text-white float-right d-inline">
+                            <i class="fa fa-trash-o " aria-hidden="true"></i>
+                        </a>
+                        <p class="fst-italic ml-4">
+                            "{{ notification.text_preview }}"
+                            <a href="{% url 'inbox' notification.sender.id %}">
+                                details..
+                            </a>
+                        </p>
+
+                    </li>
+                    {% empty %}
+                    <div class="text-center my-4">
+                        <i class="fa fa-battery-empty fa-5x mt-4" aria-hidden="true"></i>
+                        <h3>Pas de notification</h3>
+                        <h5>Votre boite de reception est vide</h5>
+                    </div>
+
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- fin des notifications -->
+        <div class="col-md-3"></div>
+    </div>
+</div>
+
+
+{% endblock content %}
+
+{% block script %}
+{% endblock script %}

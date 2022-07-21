@@ -1,0 +1,248 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block css %}
+{% endblock css %}
+
+{% block content %}
+    <div class="container">
+        <div class="card m-4 shadow-sm">
+        <div class="card-body text-center">
+            <h3>Reporting</h3>
+        </div>
+        </div>
+    
+        <div class="row">
+            <div class="col-6 my-2">
+                <canvas id="myChart" width="400" height="200"></canvas>
+            </div>
+            <div class="col-6 my-2">
+                <canvas id="myChartSecond" width="400" height="200"></canvas>
+            </div>
+            <div class="col-12 my-2">
+                <canvas id="myChartPostLike" width="400" height="100"></canvas>
+            </div>
+            <div class="col-6 my-2">
+                <canvas id="myChartEvens" width="400" height="200"></canvas>
+            </div>
+            <div class="col-6 my-2">
+                <canvas id="evensadmin" width="400" height="200"></canvas>
+            </div>
+        </div>
+
+        
+        <br>
+        
+        <br>
+        
+        <br>
+
+    </div>
+{% endblock content %}
+
+{% block script %}
+    <script>
+        $(document).ready(function(){
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Etudiants', 'Entreprise', 'Association'],
+                    datasets: [{
+                        label: 'Nombre d\'utilisateurs selon son types',
+                        data: [{{ profiles.count }}, {{ pages.count }}, {{ associations.count }}],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+
+        //Deuxieme charte graphiques Des postes 
+        var ctx2 = document.getElementById('myChartSecond').getContext('2d');
+            var myChart = new Chart(ctx2, {
+                type: 'polarArea',
+                data: {
+                    labels: ['Posts', 'Annonces', 'Article Scientifique "Xamxam"'],
+                    datasets: [{
+                        label: 'Interaction',
+                        data: [{{ postfeed.count  }}, {{ posts.count }}, {{ xamxam.count }}],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+
+
+            var ctx3 = document.getElementById('myChartPostLike').getContext('2d');
+            var myChart = new Chart(ctx3, {
+                type: 'pie',
+                data: {
+                    labels: ['Annonces', 'Interaction "Interet"'],
+                    datasets: [{
+                        label: 'Interaction',
+                        data: [{{ posts.count }}, {{ post_like }}],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+
+
+
+
+            var ctx3 = document.getElementById('myChartEvens').getContext('2d');
+            var myChart = new Chart(ctx3, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Evenement', 'Vues '],
+                    datasets: [{
+                        label: 'Evenement',
+                        data: [{{ evens.count }}, {{ evens_views.views__sum }}],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+
+
+            var ctx3 = document.getElementById('evensadmin').getContext('2d');
+            var myChart = new Chart(ctx3, {
+                type: 'bar',
+                data: {
+                    labels: ['"Admin" Evenement', 'Vues '],
+                    datasets: [{
+                        label: 'Interaction',
+                        data: [{{ adminEvens.count }}, {{ adminEvens.views }}],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+
+
+
+
+//Fermeture du document myChartPostLike 
+        }); 
+    </script>
+{% endblock script %}

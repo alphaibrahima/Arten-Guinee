@@ -1,0 +1,125 @@
+{% extends 'base/base.html' %}
+
+{% load static %}
+{% block css %}
+{% if user.is_association%}
+  <link href="{% static 'CSS/Associ.css' %}" rel="stylesheet" type="text/css">
+{% else %}
+  <link rel="stylesheet" href="{% static 'CSS/etu_menu.css' %}">
+{% endif %}
+
+<style>
+  #id_img_une
+  {
+    margin-top: 5px;
+    font-size : 16px;
+    background: white;
+    border-radius: 50px;
+    width: 100%;
+    outline: none;
+    box-shadow: 10px 14px 23px -4px rgba(0,0,0,0.1);
+    -webkit-box-shadow: 10px 14px 23px -4px rgba(0,0,0,0.29);
+    -moz-box-shadow: 10px 14px 23px -4px rgba(0,0,0,0.29);
+  }
+
+  ::-webkit-file-upload-button
+  {
+    color: #fff;
+    background:#3563A9;
+    padding: 10px;
+    border: none;
+    border-radius: 50px;
+    box-shadow: 1px 0 1px #052754;
+    outline: none;
+  }
+
+  ::-webkit-file-upload-button:hover
+  {
+    background: #052754;
+    box-shadow: 1px 0 1px #3563A9;
+  }
+
+  label
+  {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  label[for="id_img_une"]
+  {
+    display: none;
+  }
+
+  #btn-bleu
+  {
+    background-color: #3563A9;
+    color: #fff;
+    width: 100px;
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    font-size: 20px;
+  }
+
+  #btn-bleu:hover
+  {
+    background-color: #fff;
+    color: #3563A9;
+    border: 1px solid #3563A9;
+    transition: all 0.5s ease-out;
+  }
+</style>
+
+
+{% endblock css %}
+
+{% block content %}
+
+<!-- debut des menu -->
+{% if user.is_student %}
+    {% include 'partials/_etu_menu.html' %}
+{% elif user.is_company %}
+    {% include 'partials/_etpse_menu.html' %}
+{% elif user.is_association %}
+    {% include 'partials/_Association_Menu.html' %}
+{% endif %}
+<!-- debut des menu -->
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3"></div>
+
+        <div class="col-md-6">
+
+            <div class="card my-4">
+                <div class="card-body">
+                  <h2 class="text-center">Ajouter une annonce</h2> 
+                </div>
+              </div>
+        
+
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    {{ form.media }}
+                    <button class="" id="btn-bleu"> Publier</button>
+                </form>
+                
+
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+</div>
+
+<script>
+    var name = "{{user.id}}";
+    document.getElementById("username").value = name;
+</script>
+
+
+
+{% endblock content %}
+
+{% block script %}
+{% endblock script %}

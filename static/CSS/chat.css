@@ -1,0 +1,59 @@
+body
+{
+    background-color: #F1F1F1;
+}
+
+.cardbottom
+{
+    position: relative;
+    bottom: 0px;
+    height: 500px;
+ 
+}
+
+#div1
+{
+    height: 800px;
+    overflow: auto;    
+}
+
+#listeMessage
+{
+
+}
+
+#madiv
+{
+    height: 400px;
+    overflow: auto;
+}
+
+
+.pb
+{
+    position: absolute;
+    bottom: 0px;
+    /* margin-left: 15%;  */
+    width: 100%;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+
+
+.cardbottom p
+{
+    text-align: center;
+    margin: 5px;
+}
+
+.form-group  textarea
+{
+    border-radius: 25px;
+    /* width: 70%; */
+}
+
+.pb button
+{
+    border-radius: 25px;
+}
